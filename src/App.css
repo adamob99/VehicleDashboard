@@ -1,112 +1,224 @@
-/* Overall App container */
+/* General App Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+ /* #121212;Dark background for the app */
+    color: #fff; /* White text for contrast */
+}
+
 .App {
     text-align: center;
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
+    padding: 20px;
 }
 
-/* Grid container for the dashboard */
+/* Dashboard Grid */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
-    grid-template-rows: auto auto auto;   /* Adjust rows based on content */
-    gap: 20px;                            /* Spacing between items */
+    grid-template-columns: 1fr; /* Single column for full-width rows */
+    grid-template-rows: auto auto auto auto; /* Four rows for each component */
+    gap: 20px; /* Space between rows */
     padding: 20px;
-    max-width: 1200px;                    /* Restrict overall width */
+    max-width: 1200px; /* Restrict overall width */
+    margin: 0 auto; /* Center the grid */
+    background-color: #1c1c1c; /* Light black background */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
-/* Indicators styling */
-.indicators-container {
-    grid-column: 1 / 4; /* Spans all 3 columns */
-    grid-row: 1 / 2;    /* Place in the first row */
-    padding: 10px;
-}
 
-.indicators {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 indicators in a row */
-    gap: 10px;
-    justify-items: center;
-    align-items: center;
-    padding: 10px;
-    background-color: #1f2229; /* Optional background for indicators block */
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.indicator-item {
-    text-align: center;
-}
-
-.indicator-item img {
-    max-width: 50px; /* Adjust image size */
-    margin-bottom: 5px;
-}
-
-.indicator-item p {
-    font-size: 0.9rem;
-    color: white;
-}
-
-/* Other grid items */
+/* Gauges - Full Row */
 .gauges-container {
-    grid-column: 1 / 2; /* First column */
-    grid-row: 2 / 3;
-}
-
-.middle-row-container {
-    grid-column: 2 / 4; /* Spans the last two columns */
-    grid-row: 2 / 3;
-}
-
-.controls-container {
-    grid-column: 1 / 2; /* First column */
-    grid-row: 3 / 4;
-}
-
-.bottom-row-container {
-    grid-column: 2 / 3; /* Center column */
-    grid-row: 3 / 4;
-}
-
-.dashboard-container {
-    grid-column: 3 / 4; /* Last column */
-    grid-row: 3 / 4;
-}
-/* Indicators Container Styling */
-.indicators {
-    display: flex; /* Use Flexbox for horizontal alignment */
-    flex-wrap: wrap; /* Allow wrapping if the container is too narrow */
-    gap: 20px; /* Space between items */
-    justify-content: center; /* Center-align items */
-    align-items: center; /* Align items vertically */
-    padding: 20px;
-    background-color: #1f2229; /* Optional background for visual separation */
+    grid-row: 2 / 3; /* Second row */
+    display: flex;
+    justify-content: space-around; /* Space gauges evenly */
+    align-items: center;
+    background-color: #242424;
     border-radius: 8px;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px; /* Add spacing below the container */
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Individual Gauge Styles */
+.gauge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 150px; /* Fixed width for gauges */
+    height: 150px; /* Fixed height for gauges */
+    margin: 0 20px; /* Space between gauges */
+}
+
+/* Middle Row - Full Row */
+.indicators-container {
+    grid-row: 1 / 2; /* Place in the first row */
+    display: flex;
+    justify-content: space-evenly; /* Evenly distribute the icons */
+    align-items: center;
+    background-color: #242424; /* Slightly lighter than the grid background */
+ 
+    gap: 0; /* Remove any extra gap between items */
+    width: 100%; /* Ensure it takes up full width */
+}/* Indicators Container */
+.indicators-container {
+    grid-row: 1 / 2; /* Place in the first row */
+    display: flex;
+    justify-content: space-evenly; /* Space icons evenly across the row */
+    align-items: center;
+    padding: 20px; /* Add padding for spacing */
+    background-color: #242424; /* Slightly lighter than the grid background */
+    border-radius: 8px;
+    width: 100%; /* Ensure full width of the row */
+    box-sizing: border-box; /* Include padding in the width */
 }
 
 /* Individual Indicator Items */
 .indicator-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    flex: 1 1 150px; /* Allow items to grow, shrink, and set a base size */
-    max-width: 150px; /* Optional: limit the size of each item */
+    gap: 10px; /* Space between the icon and label */
+    flex: 1; /* Make each indicator take equal space */
 }
 
-.indicator-item img {
-    max-width: 60px; /* Adjust image size */
-    margin-bottom: 10px;
+/* Indicator Icons */
+.indicator-icon {
+    width: 60px;
+    height: auto;
 }
 
-.indicator-item p {
-    font-size: 0.9rem;
+/* Indicator Labels */
+.indicator-label {
+    font-size: 14px;
     color: white;
 }
+
+/* Gauges - Full Row */
+.gauges-container {
+    grid-row: 2 / 3; /* Second row */
+    display: flex;
+    justify-content: space-evenly; /* Space gauges evenly across the row */
+    align-items: center;
+    background-color: #242424;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 100%; /* Ensure full width of the row */
+    box-sizing: border-box; /* Include padding in the width */
+}
+
+/* Middle Row Buttons */
+.middle-row-container button {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    flex: 1; /* Stretch buttons equally */
+}
+
+.middle-row-container button:hover {
+    background-color: #555;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Start Charging Button */
+#start-charging-btn {
+    background-color: #e74c3c; /* Red by default */
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+#start-charging-btn.active {
+    background-color: #27ae60; /* Green when active */
+}
+
+#start-charging-btn:hover {
+    transform: scale(1.05);
+}
+
+
+
+/* General App Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #fff; /* White text for contrast */
+}
+
+.App {
+    text-align: center;
+    padding: 20px;
+    background-color: #121212; /* Dark background for the app */
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column for full-width rows */
+    grid-template-rows: auto auto auto; /* Three rows for Indicators, Gauges, and Middle Row */
+    gap: 20px; /* Space between rows */
+    padding: 20px;
+    max-width: 1200px; /* Restrict overall width */
+    margin: 0 auto; /* Center the grid */
+    background-color: #1c1c1c; /* Light black background */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+/* Controls Section */
+.controls-section {
+    margin: 40px auto; /* Add spacing above and below */
+    max-width: 800px; /* Restrict the width of controls */
+    padding: 20px;
+    background-color: #242424; /* Slightly lighter than grid background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between control elements */
+}
+
+/* Dashboard Section */
+.dashboard-section {
+    margin: 40px auto; /* Add spacing above and below */
+    max-width: 800px; /* Restrict the width of dashboard */
+    padding: 20px;
+    background-color: #242424; /* Slightly lighter than grid background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    text-align: left; /* Align text to the left */
+}
+
+/* Input Fields in Controls */
+.controls-section input,
+.controls-section button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    margin: 0 10px; /* Space between inputs and buttons */
+}
+
+.controls-section button {
+    background-color: #444;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.controls-section button:hover {
+    background-color: #555;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+

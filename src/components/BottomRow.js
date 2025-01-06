@@ -3,8 +3,9 @@ import React, { useState } from "react";
 function BottomRow() {
     const [isCharging, setIsCharging] = useState(false);
 
-    const handleChargingClick = () => {
-        setIsCharging(!isCharging);
+    const handleChargingClick = (event) => {
+        event.preventDefault(); // Prevent default behavior
+        setIsCharging((prevState) => !prevState); // Toggle charging state
     };
 
     return (
@@ -71,7 +72,7 @@ function BottomRow() {
                 style={{
                     padding: "10px 20px",
                     fontSize: "16px",
-                    backgroundColor: isCharging ? "#4CAF50" : "#f44336",
+                    backgroundColor: isCharging ? "#4CAF50" : "#f44336", // Green or Red based on state
                     color: "#fff",
                     border: "none",
                     borderRadius: "5px",

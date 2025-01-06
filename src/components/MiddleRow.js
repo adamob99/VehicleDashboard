@@ -8,12 +8,26 @@ function MiddleRow({
     motorSpeedSetting,
     onSpeedChange,
 }) {
-    const [speed, setSpeed] = useState(motorSpeedSetting || 1);
+    const [speedLevel, setSpeedLevel] = useState(motorSpeedSetting || 1);
+
+    // Map slider values to motor speeds
+    const speedMapping = {
+        0: 0,
+        1: 50,
+        2: 75,
+        3: 125,
+        4: 150,
+    };
 
     const handleSpeedChange = (event) => {
-        const newSpeed = Number(event.target.value);
-        setSpeed(newSpeed);
-        onSpeedChange(newSpeed); // Pass the new speed back to the parent component
+        const newSpeedLevel = Number(event.target.value);
+        setSpeedLevel(newSpeedLevel);
+
+        // Map the speed level to motor speed
+        const mappedSpeed = speedMapping[newSpeedLevel];
+
+        // Pass the mapped speed back to the parent component
+        onSpeedChange(mappedSpeed);
     };
 
     return (
@@ -47,13 +61,15 @@ function MiddleRow({
                 <h3>Motor Speed Setting</h3>
                 <input
                     type="range"
-                    min="1"
+                    min="0"
                     max="4"
-                    value={speed}
+                    value={speedLevel}
                     onChange={handleSpeedChange}
                     style={{ width: "100px" }}
                 />
-                <p style={{ fontSize: "20px", fontWeight: "bold" }}>Speed: {speed}</p>
+                <p style={{ fontSize: "20px", fontWeight: "bold" }}>
+                    Speed: {speedMapping[speedLevel]}
+                </p>
             </div>
         </div>
     );
