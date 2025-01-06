@@ -1,3 +1,91 @@
+Vehicle Dashboard
+A dynamic web application that visualizes and controls vehicle metrics such as motor speed, power consumption, gear ratio, and battery status in real-time. The dashboard uses an AWS DynamoDB database as its backend to store and retrieve data.
+
+Features
+Real-Time Visualization:
+
+Animated gauges for power and motor RPM with smooth needle transitions.
+Indicators for parking brake, engine status, and battery health.
+Visual components update dynamically with changes from the backend.
+Interactive Controls:
+
+Slider for motor speed setting that updates the backend database.
+Start/Stop charging button that toggles power consumption levels.
+Backend Integration:
+
+Fully integrated with an AWS DynamoDB database.
+REST API (hosted on AWS) for fetching and updating data.
+Technologies Used
+Frontend:
+
+React.js
+CSS for styling
+Backend:
+
+AWS DynamoDB for data storage
+AWS API Gateway for API hosting
+Lambda functions for serverless processing
+Live Deployment
+The application is deployed using Netlify. Live Demo
+https://677ba602c668f3c9c843c591--clever-yeot-b5fe0f.netlify.app/
+
+Replace https://your-netlify-deployment-url with your actual Netlify deployment link.
+
+Installation and Setup
+Clone the Repository:
+
+bash
+Copy code
+git clone https://github.com/adamob99/VehicleDashboard.git
+cd VehicleDashboard
+Install Dependencies: Ensure you have Node.js installed, then run:
+
+bash
+Copy code
+npm install
+Environment Variables: Create a .env file in the root directory with the following content:
+
+env
+Copy code
+REACT_APP_API_URL=https://your-aws-api-endpoint
+Replace https://your-aws-api-endpoint with your actual AWS API Gateway URL.
+
+Start the Development Server:
+
+bash
+Copy code
+npm start
+The app will be available at http://localhost:3000.
+
+Build for Production: To generate a production-ready build, run:
+
+bash
+Copy code
+npm run build
+Deploying to Netlify
+Connect GitHub Repository:
+
+Log in to Netlify and create a new site by linking your GitHub repository.
+Set Build Command and Publish Directory:
+
+Build Command: npm run build
+Publish Directory: build
+Environment Variables: Add the REACT_APP_API_URL environment variable in Netlify settings.
+
+Deploy: Once configured, deploy your application, and Netlify will provide a live URL.
+
+Usage
+Dashboard:
+
+Displays real-time metrics fetched from AWS DynamoDB.
+Allows interaction with vehicle controls such as motor speed and power.
+Backend API:
+
+Data is fetched and updated via an AWS API Gateway connected to DynamoDB.
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
