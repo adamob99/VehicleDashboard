@@ -66,6 +66,7 @@ const Controls = ({ refreshData }) => {
                     onChange={(e) => setBatteryLevel(Number(e.target.value))}
                 />
             </label>
+            <div>
             <label>
                 Parking Break:
                 <input
@@ -83,7 +84,7 @@ const Controls = ({ refreshData }) => {
                 />
             </label>
             <button onClick={handleSubmit}>Submit</button>
-        </div>
+        </div></div>
     );
 };
 

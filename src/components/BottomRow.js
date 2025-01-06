@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
-function BottomRow() {
+function BottomRow({ onToggleCharging }) {
     const [isCharging, setIsCharging] = useState(false);
 
     const handleChargingClick = (event) => {
         event.preventDefault(); // Prevent default behavior
-        setIsCharging((prevState) => !prevState); // Toggle charging state
+        const newChargingState = !isCharging;
+        setIsCharging(newChargingState); // Toggle charging state
+        onToggleCharging(newChargingState); // Call the parent function to update the database
     };
 
     return (

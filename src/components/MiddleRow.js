@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function MiddleRow({
-    gearRatio,
-    batteryPercentage,
-    batteryTemperature,
-    motorRPM,
     motorSpeedSetting,
     onSpeedChange,
+    batteryPercentage,
+    motorRPM,
 }) {
-    const [speedLevel, setSpeedLevel] = useState(motorSpeedSetting || 1);
-
-    // Map slider values to motor speeds
     const speedMapping = {
         0: 0,
         1: 50,
@@ -19,15 +14,36 @@ function MiddleRow({
         4: 150,
     };
 
+    const reverseSpeedMapping = Object.keys(speedMapping).reduce((acc, level) => {
+        acc[speedMapping[level]] = parseInt(level);
+        return acc;
+    }, {});
+
+    const [speedLevel, setSpeedLevel] = useState(
+        reverseSpeedMapping[motorSpeedSetting] || 0
+    );
+    const [batteryTemperature, setBatteryTemperature] = useState(25); // Default temp
+    const [gearRatio, setGearRatio] = useState("N/A");
+
+    useEffect(() => {
+        setSpeedLevel(reverseSpeedMapping[motorSpeedSetting] || 0);
+
+        // Update battery temperature and gear ratio based on motor speed
+        const mappedSpeed = speedMapping[speedLevel];
+        setBatteryTemperature(25 + mappedSpeed * 0.1); // Example: Increase temp with speed
+        setGearRatio(mappedSpeed > 125 ? 4 : mappedSpeed > 75 ? 3 : mappedSpeed > 50 ? 2 : 1);
+    }, [motorSpeedSetting, speedLevel]);
+
     const handleSpeedChange = (event) => {
         const newSpeedLevel = Number(event.target.value);
         setSpeedLevel(newSpeedLevel);
 
-        // Map the speed level to motor speed
         const mappedSpeed = speedMapping[newSpeedLevel];
-
-        // Pass the mapped speed back to the parent component
         onSpeedChange(mappedSpeed);
+
+        // Update battery temperature and gear ratio dynamically
+        setBatteryTemperature(25 + mappedSpeed * 0.1); // Adjust temp formula as needed
+        setGearRatio(mappedSpeed > 125 ? 4 : mappedSpeed > 75 ? 3 : mappedSpeed > 50 ? 2 : 1);
     };
 
     return (
@@ -47,7 +63,7 @@ function MiddleRow({
             {/* Battery Temperature */}
             <div style={{ textAlign: "center" }}>
                 <h3>Battery Temp</h3>
-                <p style={{ fontSize: "20px", fontWeight: "bold" }}>{batteryTemperature}°C</p>
+                <p style={{ fontSize: "20px", fontWeight: "bold" }}>{batteryTemperature.toFixed(1)}°C</p>
             </div>
 
             {/* Motor RPM */}

@@ -3,9 +3,9 @@ import Indicators from "./components/Indicators";
 import Gauges from "./components/Gauges";
 import MiddleRow from "./components/MiddleRow";
 import BottomRow from "./components/BottomRow";
-import Controls from "./components/Controls"; // Import Controls
-import Dashboard from "./components/Dashboard"; // Import Dashboard
-import "./App.css"; // Ensure CSS is imported
+import Controls from "./components/Controls";
+import Dashboard from "./components/Dashboard";
+import "./App.css";
 
 function App() {
     const [data, setData] = useState(null);
@@ -41,10 +41,34 @@ function App() {
                 },
                 body: JSON.stringify(updatedData),
             });
-
-            fetchData(); // Refresh the data after the update
         } catch (error) {
             console.error("Error updating motor speed:", error);
+        }
+    };
+
+    const handleToggleCharging = async (isCharging) => {
+        try {
+            const updatedPower = isCharging ? 100 : 50; // 100 kW when charging, 50 kW otherwise
+            const updatedData = { ...data, power: updatedPower };
+            setData(updatedData); // Update locally for immediate UI feedback
+
+            // Update on the server
+            const response = await fetch(
+                "https://yubj00fz6a.execute-api.us-east-1.amazonaws.com/dev/data",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(updatedData),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to update the server");
+            }
+        } catch (error) {
+            console.error("Error updating power:", error);
         }
     };
 
@@ -58,7 +82,6 @@ function App() {
             {data ? (
                 <>
                     <div className="dashboard-grid">
-                        {/* Full-Row Indicators */}
                         <div className="indicators-container">
                             <Indicators
                                 parkingBrake={data.parkingBreak || false}
@@ -67,13 +90,9 @@ function App() {
                                 batteryLow={data.batteryLevel < 20}
                             />
                         </div>
-
-                        {/* Full-Row Gauges */}
                         <div className="gauges-container">
                             <Gauges power={data.power || 0} motorRPM={data.motorSpeed || 0} />
                         </div>
-
-                        {/* Full-Row Middle Row */}
                         <div className="middle-row-container">
                             <MiddleRow
                                 gearRatio={data.gearRatio || "N/A"}
@@ -84,19 +103,15 @@ function App() {
                                 onSpeedChange={handleSpeedChange}
                             />
                         </div>
-
-                        {/* Full-Row Bottom Row */}
                         <div className="bottom-row-container">
-                            <BottomRow />
+                            <BottomRow
+                                onToggleCharging={(isCharging) => handleToggleCharging(isCharging)}
+                            />
                         </div>
                     </div>
-
-                    {/* Controls Section */}
                     <div className="controls-section">
                         <Controls refreshData={fetchData} />
                     </div>
-
-                    {/* Dashboard Section */}
                     <div className="dashboard-section">
                         <Dashboard data={data} fetchData={fetchData} />
                     </div>
