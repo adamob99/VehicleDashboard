@@ -12,7 +12,6 @@ function App() {
 
     const fetchData = async () => {
         try {
-            console.log("Fetching data...");
             const response = await fetch(
                 "https://yubj00fz6a.execute-api.us-east-1.amazonaws.com/dev/data"
             );
@@ -21,38 +20,17 @@ function App() {
                 typeof rawResult.body === "string"
                     ? JSON.parse(rawResult.body)
                     : rawResult.body;
-            console.log("Parsed Data: ", parsedData);
             setData(parsedData);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     };
 
-    const handleSpeedChange = async (mappedSpeed) => {
+    const updateData = async (updatedFields) => {
         try {
-            const updatedData = { ...data, motorSpeed: mappedSpeed };
-            setData(updatedData); // Update locally for immediate UI feedback
+            const updatedData = { ...data, ...updatedFields };
+            setData(updatedData); // Optimistically update the state
 
-            // Update on the server
-            await fetch("https://yubj00fz6a.execute-api.us-east-1.amazonaws.com/dev/data", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updatedData),
-            });
-        } catch (error) {
-            console.error("Error updating motor speed:", error);
-        }
-    };
-
-    const handleToggleCharging = async (isCharging) => {
-        try {
-            const updatedPower = isCharging ? 100 : 50; // 100 kW when charging, 50 kW otherwise
-            const updatedData = { ...data, power: updatedPower };
-            setData(updatedData); // Update locally for immediate UI feedback
-
-            // Update on the server
             const response = await fetch(
                 "https://yubj00fz6a.execute-api.us-east-1.amazonaws.com/dev/data",
                 {
@@ -65,10 +43,10 @@ function App() {
             );
 
             if (!response.ok) {
-                throw new Error("Failed to update the server");
+                console.error("Failed to update backend.");
             }
         } catch (error) {
-            console.error("Error updating power:", error);
+            console.error("Error updating data:", error);
         }
     };
 
@@ -82,39 +60,61 @@ function App() {
             {data ? (
                 <>
                     <div className="dashboard-grid">
+                        {/* Indicators Row */}
                         <div className="indicators-container">
                             <Indicators
                                 parkingBrake={data.parkingBreak || false}
                                 checkEngine={data.checkEngine || false}
                                 motorHighSpeed={data.motorSpeed > 50}
-                                batteryLow={data.batteryLevel < 20}
+                                batteryLow={data.batteryLevel < 50} // Updated to use batteryLevel
                             />
                         </div>
+
+                        {/* Gauges Row */}
                         <div className="gauges-container">
                             <Gauges power={data.power || 0} motorRPM={data.motorSpeed || 0} />
                         </div>
+
+                        {/* Middle Row */}
                         <div className="middle-row-container">
                             <MiddleRow
                                 gearRatio={data.gearRatio || "N/A"}
                                 batteryPercentage={data.batteryLevel || 0}
                                 batteryTemperature={data.batteryTemperature || 0}
                                 motorRPM={data.motorSpeed || 0}
-                                motorSpeedSetting={data.motorSpeed || 1}
-                                onSpeedChange={handleSpeedChange}
+                                motorSpeedSetting={data.motorSpeed || 0}
+                                onSpeedChange={(speed) => {
+                                    const batteryLevel = Math.max(0, 100 - (speed / 150) * 100); // Adjust battery level dynamically
+                                    const gearRatio =
+                                        speed > 125 ? 4 : speed > 75 ? 3 : speed > 50 ? 2 : 1; // Adjust gear ratio dynamically
+                                    const batteryTemperature = 25 + speed * 0.1; // Adjust battery temp dynamically
+
+                                    updateData({
+                                        motorSpeed: speed,
+                                        batteryLevel,
+                                        gearRatio,
+                                        batteryTemperature,
+                                    });
+                                }}
                             />
                         </div>
+
+                        {/* Bottom Row */}
                         <div className="bottom-row-container">
                             <BottomRow
-                                onToggleCharging={(isCharging) => handleToggleCharging(isCharging)}
+                                onToggleCharging={(isCharging) =>
+                                    updateData({ power: isCharging ? 100 : 50 })
+                                }
                             />
                         </div>
                     </div>
+
+                    {/* Controls Section */}
                     <div className="controls-section">
-                        <Controls refreshData={fetchData} />
+                        <Controls data={data} updateData={updateData} />
                     </div>
-                    <div className="dashboard-section">
-                        <Dashboard data={data} fetchData={fetchData} />
-                    </div>
+
+                  
                 </>
             ) : (
                 <p>Loading...</p>

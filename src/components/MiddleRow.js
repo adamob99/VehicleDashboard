@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 function MiddleRow({
     motorSpeedSetting,
     onSpeedChange,
-    batteryPercentage,
     motorRPM,
 }) {
     const speedMapping = {
@@ -22,16 +21,26 @@ function MiddleRow({
     const [speedLevel, setSpeedLevel] = useState(
         reverseSpeedMapping[motorSpeedSetting] || 0
     );
-    const [batteryTemperature, setBatteryTemperature] = useState(25); // Default temp
-    const [gearRatio, setGearRatio] = useState("N/A");
+
+    const [calculatedBatteryPercentage, setCalculatedBatteryPercentage] = useState(100);
+    const [calculatedTemperature, setCalculatedTemperature] = useState(25); // Default temperature
+    const [calculatedGearRatio, setCalculatedGearRatio] = useState("N/A");
 
     useEffect(() => {
         setSpeedLevel(reverseSpeedMapping[motorSpeedSetting] || 0);
 
-        // Update battery temperature and gear ratio based on motor speed
+        // Calculate battery percentage
         const mappedSpeed = speedMapping[speedLevel];
-        setBatteryTemperature(25 + mappedSpeed * 0.1); // Example: Increase temp with speed
-        setGearRatio(mappedSpeed > 125 ? 4 : mappedSpeed > 75 ? 3 : mappedSpeed > 50 ? 2 : 1);
+        const batteryPercentage = 100 - ((mappedSpeed / 150) * 75); // Scale 100% -> 25%
+        setCalculatedBatteryPercentage(batteryPercentage);
+
+        // Calculate temperature dynamically
+        const temperature = 25 + mappedSpeed * 0.1; // Example formula
+        setCalculatedTemperature(temperature);
+
+        // Calculate gear ratio dynamically
+        const gearRatio = mappedSpeed > 125 ? 4 : mappedSpeed > 75 ? 3 : mappedSpeed > 50 ? 2 : 1;
+        setCalculatedGearRatio(gearRatio);
     }, [motorSpeedSetting, speedLevel]);
 
     const handleSpeedChange = (event) => {
@@ -41,9 +50,15 @@ function MiddleRow({
         const mappedSpeed = speedMapping[newSpeedLevel];
         onSpeedChange(mappedSpeed);
 
-        // Update battery temperature and gear ratio dynamically
-        setBatteryTemperature(25 + mappedSpeed * 0.1); // Adjust temp formula as needed
-        setGearRatio(mappedSpeed > 125 ? 4 : mappedSpeed > 75 ? 3 : mappedSpeed > 50 ? 2 : 1);
+        // Update calculations
+        const batteryPercentage = 100 - ((mappedSpeed / 150) * 75); // Scale 100% -> 25%
+        setCalculatedBatteryPercentage(batteryPercentage);
+
+        const temperature = 25 + mappedSpeed * 0.1; // Example formula
+        setCalculatedTemperature(temperature);
+
+        const gearRatio = mappedSpeed > 125 ? 4 : mappedSpeed > 75 ? 3 : mappedSpeed > 50 ? 2 : 1;
+        setCalculatedGearRatio(gearRatio);
     };
 
     return (
@@ -51,19 +66,23 @@ function MiddleRow({
             {/* Gear Ratio */}
             <div style={{ textAlign: "center" }}>
                 <h3>Gear Ratio</h3>
-                <p style={{ fontSize: "20px", fontWeight: "bold" }}>{gearRatio}</p>
+                <p style={{ fontSize: "20px", fontWeight: "bold" }}>{calculatedGearRatio}</p>
             </div>
 
             {/* Battery Percentage */}
             <div style={{ textAlign: "center" }}>
                 <h3>Battery %</h3>
-                <p style={{ fontSize: "20px", fontWeight: "bold" }}>{batteryPercentage}%</p>
+                <p style={{ fontSize: "20px", fontWeight: "bold" }}>
+                    {calculatedBatteryPercentage.toFixed(1)}%
+                </p>
             </div>
 
             {/* Battery Temperature */}
             <div style={{ textAlign: "center" }}>
                 <h3>Battery Temp</h3>
-                <p style={{ fontSize: "20px", fontWeight: "bold" }}>{batteryTemperature.toFixed(1)}°C</p>
+                <p style={{ fontSize: "20px", fontWeight: "bold" }}>
+                    {calculatedTemperature.toFixed(1)}°C
+                </p>
             </div>
 
             {/* Motor RPM */}
