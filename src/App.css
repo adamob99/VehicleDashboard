@@ -26,29 +26,20 @@ body {
 }
 
 
-/* Gauges - Full Row */
+
+/* Gauges - Full Row 
 .gauges-container {
-    grid-row: 2 / 3; /* Second row */
+    grid-row: 2 / 3; 
     display: flex;
-    justify-content: space-around; /* Space gauges evenly */
+    justify-content: space-around; 
     align-items: center;
     background-color: #242424;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+*/
 
-/* Individual Gauge Styles */
-.gauge {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 150px; /* Fixed width for gauges */
-    height: 150px; /* Fixed height for gauges */
-    margin: 0 20px; /* Space between gauges */
-}
 
 /* Middle Row - Full Row */
 .indicators-container {
@@ -95,19 +86,6 @@ body {
     color: white;
 }
 
-/* Gauges - Full Row */
-.gauges-container {
-    grid-row: 2 / 3; /* Second row */
-    display: flex;
-    justify-content: space-evenly; /* Space gauges evenly across the row */
-    align-items: center;
-    background-color: #242424;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    width: 100%; /* Ensure full width of the row */
-    box-sizing: border-box; /* Include padding in the width */
-}
 
 /* Middle Row Buttons */
 .middle-row-container button {
@@ -220,5 +198,9 @@ body {
 .controls-section button:hover {
     background-color: #555;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.gauges-container {
+    display: block; /* Ensure independent layout */
+    padding: 0; /* Remove spacing */
 }
 

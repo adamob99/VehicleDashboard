@@ -4,7 +4,6 @@ import Gauges from "./components/Gauges";
 import MiddleRow from "./components/MiddleRow";
 import BottomRow from "./components/BottomRow";
 import Controls from "./components/Controls";
-import Dashboard from "./components/Dashboard";
 import "./App.css";
 
 function App() {
@@ -72,7 +71,10 @@ function App() {
 
                         {/* Gauges Row */}
                         <div className="gauges-container">
-                            <Gauges power={data.power || 0} motorRPM={data.motorSpeed || 0} />
+                            <Gauges
+                                power={data.power || 0}
+                                motorRPM={data.motorSpeed || 0}
+                            />
                         </div>
 
                         {/* Middle Row */}
@@ -84,10 +86,20 @@ function App() {
                                 motorRPM={data.motorSpeed || 0}
                                 motorSpeedSetting={data.motorSpeed || 0}
                                 onSpeedChange={(speed) => {
-                                    const batteryLevel = Math.max(0, 100 - (speed / 150) * 100); // Adjust battery level dynamically
+                                    const batteryLevel = Math.max(
+                                        0,
+                                        100 - (speed / 150) * 100
+                                    ); // Adjust battery level dynamically
                                     const gearRatio =
-                                        speed > 125 ? 4 : speed > 75 ? 3 : speed > 50 ? 2 : 1; // Adjust gear ratio dynamically
-                                    const batteryTemperature = 25 + speed * 0.1; // Adjust battery temp dynamically
+                                        speed > 125
+                                            ? 4
+                                            : speed > 75
+                                            ? 3
+                                            : speed > 50
+                                            ? 2
+                                            : 1; // Adjust gear ratio dynamically
+                                    const batteryTemperature =
+                                        25 + speed * 0.1; // Adjust battery temp dynamically
 
                                     updateData({
                                         motorSpeed: speed,
@@ -113,8 +125,6 @@ function App() {
                     <div className="controls-section">
                         <Controls data={data} updateData={updateData} />
                     </div>
-
-                  
                 </>
             ) : (
                 <p>Loading...</p>
