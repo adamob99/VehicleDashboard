@@ -1,48 +1,43 @@
 import React from "react";
-import "./Indicators.css";
-import ParkingBrakeOnImage from "../assets/parking-brake-engaged.png";
-import ParkingBrakeOffImage from "../assets/parking-brake-disengaged.png";
-import CheckEngineOnImage from "../assets/check-engine-red.png"; // New Image
-import CheckEngineOffImage from "../assets/check-engine-green.png"; // New Image
+import parkingBrakeEngaged from "../assets/parking-brake-engaged.png";
+import parkingBrakeDisengaged from "../assets/parking-brake-disengaged.png";
+import checkEngineOn from "../assets/check-engine-red.png";
+import checkEngineOff from "../assets/check-engine-green.png";
+import motorHigh from "../assets/motor-status-red.png";
+import motorLow from "../assets/motor-status-green.png";
+import batteryLowImage from "../assets/battery-low-red.png";
+import batteryOkImage from "../assets/battery-low-green.png";
 
-const Indicators = ({ parkingBreak, checkEngine, motorHighSpeed, batteryLow }) => {
+const Indicators = ({ parkingBrake, checkEngine, motorHighSpeed, batteryLow }) => {
+    console.log("Indicators Props:", { parkingBrake, checkEngine, motorHighSpeed, batteryLow });
+
     return (
-        <div className="indicators-container">
+        <div>
+            <h2>Indicators</h2>
+
             {/* Parking Brake Indicator */}
-            <div className="indicator-item">
-                <img
-                    src={parkingBreak ? ParkingBrakeOnImage : ParkingBrakeOffImage}
-                    alt={parkingBreak ? "Parking Brake Engaged" : "Parking Brake Disengaged"}
-                    className="indicator-image"
-                />
-                <div className="indicator-label">Parking Brake</div>
-            </div>
+            <img
+                src={parkingBrake ? parkingBrakeEngaged : parkingBrakeDisengaged}
+                alt={parkingBrake ? "Parking Brake Engaged" : "Parking Brake Disengaged"}
+            />
 
             {/* Check Engine Indicator */}
-            <div className="indicator-item">
-                <img
-                    src={checkEngine ? CheckEngineOnImage : CheckEngineOffImage}
-                    alt={checkEngine ? "Check Engine Active" : "Check Engine Inactive"}
-                    className="indicator-image"
-                />
-                <div className="indicator-label">Check Engine</div>
-            </div>
+            <img
+                src={checkEngine ? checkEngineOn : checkEngineOff}
+                alt={checkEngine ? "Check Engine On" : "Check Engine Off"}
+            />
 
-            {/* Motor High Speed Indicator */}
-            <div className="indicator-item">
-                <div className={`indicator-icon ${motorHighSpeed ? "active" : "inactive"}`}>
-                    ⚡
-                </div>
-                <div className="indicator-label">Motor High Speed</div>
-            </div>
+            {/* Motor Speed Indicator */}
+            <img
+                src={motorHighSpeed ? motorHigh : motorLow}
+                alt={motorHighSpeed ? "Motor High Speed" : "Motor Low Speed"}
+            />
 
-            {/* Battery Low Indicator */}
-            <div className="indicator-item">
-                <div className={`indicator-icon ${batteryLow ? "active" : "inactive"}`}>
-                    🔋
-                </div>
-                <div className="indicator-label">Battery Low</div>
-            </div>
+            {/* Battery Level Indicator */}
+            <img
+                src={batteryLow ? batteryLowImage : batteryOkImage}
+                alt={batteryLow ? "Battery Low" : "Battery OK"}
+            />
         </div>
     );
 };

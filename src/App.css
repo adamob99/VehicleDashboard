@@ -1,38 +1,112 @@
+/* Overall App container */
 .App {
-  text-align: center;
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Grid container for the dashboard */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-rows: auto auto auto;   /* Adjust rows based on content */
+    gap: 20px;                            /* Spacing between items */
+    padding: 20px;
+    max-width: 1200px;                    /* Restrict overall width */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Indicators styling */
+.indicators-container {
+    grid-column: 1 / 4; /* Spans all 3 columns */
+    grid-row: 1 / 2;    /* Place in the first row */
+    padding: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.indicators {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 indicators in a row */
+    gap: 10px;
+    justify-items: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #1f2229; /* Optional background for indicators block */
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.App-link {
-  color: #61dafb;
+.indicator-item {
+    text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.indicator-item img {
+    max-width: 50px; /* Adjust image size */
+    margin-bottom: 5px;
+}
+
+.indicator-item p {
+    font-size: 0.9rem;
+    color: white;
+}
+
+/* Other grid items */
+.gauges-container {
+    grid-column: 1 / 2; /* First column */
+    grid-row: 2 / 3;
+}
+
+.middle-row-container {
+    grid-column: 2 / 4; /* Spans the last two columns */
+    grid-row: 2 / 3;
+}
+
+.controls-container {
+    grid-column: 1 / 2; /* First column */
+    grid-row: 3 / 4;
+}
+
+.bottom-row-container {
+    grid-column: 2 / 3; /* Center column */
+    grid-row: 3 / 4;
+}
+
+.dashboard-container {
+    grid-column: 3 / 4; /* Last column */
+    grid-row: 3 / 4;
+}
+/* Indicators Container Styling */
+.indicators {
+    display: flex; /* Use Flexbox for horizontal alignment */
+    flex-wrap: wrap; /* Allow wrapping if the container is too narrow */
+    gap: 20px; /* Space between items */
+    justify-content: center; /* Center-align items */
+    align-items: center; /* Align items vertically */
+    padding: 20px;
+    background-color: #1f2229; /* Optional background for visual separation */
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Add spacing below the container */
+}
+
+/* Individual Indicator Items */
+.indicator-item {
+    text-align: center;
+    flex: 1 1 150px; /* Allow items to grow, shrink, and set a base size */
+    max-width: 150px; /* Optional: limit the size of each item */
+}
+
+.indicator-item img {
+    max-width: 60px; /* Adjust image size */
+    margin-bottom: 10px;
+}
+
+.indicator-item p {
+    font-size: 0.9rem;
+    color: white;
 }
